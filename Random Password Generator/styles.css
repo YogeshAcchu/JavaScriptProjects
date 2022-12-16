@@ -44,8 +44,9 @@ body {
     color: black;
     background: none;
     font-size: 1.05rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 4px;
+    letter-spacing: 1.4px;
     border: 1px solid #aaaa;
     padding: 0 2.85rem 0 1rem;
 }
@@ -72,8 +73,23 @@ body {
     content: "";
     height: 100%;
     width: 50%;
-    background: yellow;
     border-radius: inherit;
+    transition: width 0.3s ease;
+}
+
+.wrapper .password-indicator#weak::before {
+    width: 20%;
+    background-color: red;
+}
+
+.wrapper .password-indicator#medium::before {
+    width: 50%;
+    background-color: yellow;
+}
+
+.wrapper .password-indicator#strong::before {
+    width: 100%;
+    background-color: green;
 }
 
 .wrapper .password-length {
