@@ -21,7 +21,7 @@
 <body>
     <div class="container">
         <header>
-            <input type="text">
+            <input type="text" id="search-term">
             <button id="search"><i class="fas fa-search"></i></button>
         </header>
 
@@ -33,10 +33,29 @@
         </div>
 
         <div class="meals" id="random-meal">
-           
+
+        </div>
+    </div>
+
+    <div class="meal-info-container hidden" id="meal-info-popup">
+
+        <div class="meal-container" id="meal-info">
+            <h1>Meal title</h1>
+            <div class="meal-info">
+                <button class="close-popup" id="close-popup">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="meal-recipe" id="meal-recipe">
+
+                </div>
+            </div>
+
         </div>
 
     </div>
+
+
 </body>
 
 </html>
+

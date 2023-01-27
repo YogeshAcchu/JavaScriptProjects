@@ -1,6 +1,13 @@
 
 const random_mealElement = document.getElementById('random-meal');
 const favorite_mealElement = document.getElementById('fav-meals');
+const searchTerm = document.getElementById("search-term");
+const searchButton = document.getElementById("search");
+
+//pop up
+const popup_mealInfo = document.getElementById("meal-info-popup");
+const popup_closeButton = document.getElementById("close-popup");
+const meal_recipeElement = document.getElementById("meal-recipe");
 
 
 
@@ -26,8 +33,11 @@ async function getMealById(id) {
 }
 
 
-function getMealByName(name) {
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + name);
+async function getMealByName(name) {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + name);
+    const responseData = await response.json();
+    const allMeal = responseData.meals;
+    return allMeal;
 }
 
 
@@ -68,9 +78,7 @@ function loadRandomMeal(mealData, random = false) {
             button.classList.add('active');
         }
         // console.log("Clicked");
-        /***********************VERY IMPORTANT ********************************* */
-        //Clear the container or else we get duplicate items again
-        favorite_mealElement.innerHTML = "";
+
         fetchFavoriteMeals();
 
     });
@@ -79,6 +87,9 @@ function loadRandomMeal(mealData, random = false) {
     //         event.classList.toggle('active');
     //         console.log("Clicked");
     //      });
+    meal.addEventListener('click', () => {
+        showMealInfo(mealData);
+    });
 
     random_mealElement.appendChild(meal);
 }
@@ -102,6 +113,8 @@ function getMealsFromLocalStorage() {
 }
 
 async function fetchFavoriteMeals() {
+    //clear favorite meals for duplicate reloading  
+    favorite_mealElement.innerHTML = "";
     const mealIDs = getMealsFromLocalStorage();
 
     for (let i = 0; i < mealIDs.length; i++) {
@@ -121,11 +134,83 @@ function addMealToFavorite(mealData) {
     favoriteMeal.innerHTML = ` 
     <img src="${mealData.strMealThumb}" alt="${mealData.strMeal}" />
     <span>${mealData.strMeal}</span>
+    <button class="clear"><i class="fa-solid fa-xmark"></i></button> 
    `
+    const clearButton = favoriteMeal.querySelector('.clear');
+
+    clearButton.addEventListener('click', () => {
+        removeMealfromLocalStorage(mealData.idMeal);
+        fetchFavoriteMeals();
+    });
+
+    favoriteMeal.addEventListener('click', () => {
+        showMealInfo(mealData);
+    })
+
     favorite_mealElement.appendChild(favoriteMeal);
 
     console.log(favoriteMeal);
 
-
 }
+
+searchButton.addEventListener('click', async () => {
+    //clean the container to else the items will load at the bottom
+    random_mealElement.innerHTML = "";
+
+    const searchWord = searchTerm.value;
+    // console.log(await getMealByName(searchWord));
+
+    const meals = await getMealByName(searchWord);
+
+    if (meals) {
+        meals.forEach((item) => {
+            loadRandomMeal(item);
+        })
+    }
+
+})
+
+function showMealInfo(mealData) {
+    //clean up element
+    meal_recipeElement.innerHTML = "";
+
+    const mealElement = document.createElement('div');
+
+    const ingredients = [];
+    //get ingredients
+    for (let i = 1; i <= 20; i++) {
+        if (mealData['strIngredient' + i]) {
+            ingredients.push(`${mealData["strIngredient" + i]} - ${mealData["strMeasure" + i]}`);
+
+        } else {
+            break;
+        }
+    }
+
+
+
+    mealElement.innerHTML = `
+        <h1>${mealData.strMeal}</h1>
+        <img src="${mealData.strMealThumb}" alt="">
+        <p>Instructions : ${mealData.strInstructions}</p>
+
+        <h3>Ingredients</h3>
+        <ul>
+            ${ingredients.map((item) => `<li>${item}</li>`)}
+        </ul>
+    `;
+
+    // console.log(mealElement);
+
+
+    meal_recipeElement.appendChild(mealElement);
+    //show popup
+    popup_mealInfo.classList.remove("hidden");
+}
+
+popup_closeButton.addEventListener('click', () => {
+    popup_mealInfo.classList.add("hidden");
+});
+
+
 
