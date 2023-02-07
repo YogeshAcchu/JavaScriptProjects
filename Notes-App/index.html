@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+    <!-- Markdown library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js" defer></script>
+
+    <script src="./script.js" defer></script>
+    
+    <title>Notes App</title>
+</head>
+
+<body>
+    <div class="notes-container">
+        
+        <div class="tools">
+            <!-- edit button -->
+            <button class="edit" id="close-popup">
+                <i class="fa-solid fa-edit"></i>
+            </button>
+            <!-- delete button -->
+            <button class="delete" id="close-popup">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+
+        <div class="main-container hidden">
+        </div>
+        <textarea></textarea>
+            
+    </div>
+</body>
+
+</html>
