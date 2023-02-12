@@ -14,21 +14,21 @@ async function getUser(name) {
     createUserCard(data);
 }
 
-async function getRepos(username){
+async function getRepos(username) {
     const response = await fetch(API_URL + username + '/repos');
     const data = await response.json();
     console.log(data);
     addRepostoCard(data);
 }
 
-function addRepostoCard(repos){
+function addRepostoCard(repos) {
     const reposElement = document.querySelector('#repos');
-    repos.slice(0,9).forEach(item => {
+    repos.slice(0, 9).forEach(item => {
         // console.log(item.name);  
         const repoNameElement = document.createElement('a');
         repoNameElement.classList.add('reponameElement');
 
-        repoNameElement.href  = item.html_url;
+        repoNameElement.href = item.html_url;
         repoNameElement.target = '_blank';
         repoNameElement.innerText = item.name;
 
